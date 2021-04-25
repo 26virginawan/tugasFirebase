@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_firebase/register_page.dart';
+import 'package:tugas_firebase/login_page.dart';
 // import 'package:tugas_firebase/auth_services.dart';
 import 'package:tugas_firebase/sign_in.dart';
 import 'package:tugas_firebase/first_screen.dart';
 import 'package:tugas_firebase/second_screen.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
@@ -28,10 +29,27 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 70,
                 ),
-                FlutterLogo(
-                  size: 100,
-                ),
+                FlutterLogo(size: 100),
                 SizedBox(height: 50),
+                Container(
+                  width: 300,
+                  child: TextField(
+                    controller: nameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person, color: Colors.black26),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.lightBlue),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.lightBlue),
+                      ),
+                      focusColor: Colors.orangeAccent,
+                      hintText: 'Nama',
+                      hintStyle: TextStyle(color: Colors.black26),
+                    ),
+                  ),
+                ),
                 Container(
                   width: 300,
                   child: TextField(
@@ -72,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 RaisedButton(
                   color: Colors.lightBlue,
@@ -83,9 +101,10 @@ class _LoginPageState extends State<LoginPage> {
                       width: 1,
                     ),
                   ),
-                  child: Text("Sign in"),
+                  child: Text("Register"),
                   onPressed: () async {
-                    signIn(emailController.text, passController.text)
+                    signUp(nameController.text, emailController.text,
+                            passController.text)
                         .then((result) {
                       if (result != null) {
                         Navigator.of(context).push(
@@ -102,12 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 50,
                 ),
-                _signInButton(),
-                SizedBox(
-                  height: 50,
-                ),
                 Container(
-                  child: Text("Don't have an account ? "),
+                  child: Text("Have an account ? "),
                 ),
                 SizedBox(
                   height: 10,
@@ -115,23 +130,26 @@ class _LoginPageState extends State<LoginPage> {
                 RaisedButton(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(
+                      10.0,
+                    ),
                     side: BorderSide(
                       color: Colors.lightBlue.withOpacity(0.9),
                       width: 1,
                     ),
                   ),
-                  child: Text("Register Here"),
+                  child: Text("Sign in"),
                   onPressed: () async {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return RegisterPage();
+                          return LoginPage();
                         },
                       ),
                     );
                   },
                 ),
+                // _signInButton(),
               ],
             ),
           ),
@@ -140,45 +158,45 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _signInButton() {
-    return OutlineButton(
-      splashColor: Colors.grey,
-      onPressed: () {
-        signInWithGoogle().then((result) {
-          if (result != null) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return FirstScreen();
-                },
-              ),
-            );
-          }
-        });
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.lightBlue),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'Sign in with Google',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _signInButton() {
+  //   return OutlineButton(
+  //     splashColor: Colors.grey,
+  //     onPressed: () {
+  //       signInWithGoogle().then((result) {
+  //         if (result != null) {
+  //           Navigator.of(context).push(
+  //             MaterialPageRoute(
+  //               builder: (context) {
+  //                 return FirstScreen();
+  //               },
+  //             ),
+  //           );
+  //         }
+  //       });
+  //     },
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+  //     highlightElevation: 0,
+  //     borderSide: BorderSide(color: Colors.grey),
+  //     child: Padding(
+  //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+  //       child: Row(
+  //         mainAxisSize: MainAxisSize.min,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: <Widget>[
+  //           // Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+  //           Padding(
+  //             padding: const EdgeInsets.only(left: 10),
+  //             child: Text(
+  //               'Sign in with Google',
+  //               style: TextStyle(
+  //                 fontSize: 20,
+  //                 color: Colors.grey,
+  //               ),
+  //             ),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }
